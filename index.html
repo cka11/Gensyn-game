@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train the Network | Gensyn Game</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f7f4ef;
+      color: #3a2f26;
+      font-family: 'Inter', sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    .mascot {
+      width: 150px;
+      height: 150px;
+      margin: 2rem auto;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, #c6a87d 0%, #8b6b4e 90%);
+      box-shadow: 0 0 25px rgba(139, 107, 78, 0.4);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+    .mascot:active { transform: scale(0.95); }
+    .btn {
+      background-color: #8b6b4e;
+      color: white;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+      transition: opacity 0.2s;
+    }
+    .btn:disabled { opacity: 0.4; }
+    .footer {
+      margin-top: 2rem;
+      color: #7b6a55;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="text-3xl font-bold mb-2">🧠 Train the Network</h1>
+  <p class="text-sm mb-6">Build your decentralized compute and evolve your rank!</p>
+
+  <div class="mascot" id="mascot"></div>
+
+  <h2 class="text-2xl font-semibold">Compute Power: <span id="compute">0</span></h2>
+  <p class="text-md mb-4">Rank: <span id="rank">Node Runner</span></p>
+
+  <div>
+    <button class="btn" id="buyNode">Buy Node (Cost: 50)</button>
+    <button class="btn" id="buyGPU">Buy GPU (Cost: 200)</button>
+    <button class="btn" id="buyCluster">Buy Cluster (Cost: 1000)</button>
+  </div>
+
+  <div class="mt-6">
+    <p>Nodes: <span id="nodes">0</span> | GPUs: <span id="gpus">0</span> | Clusters: <span id="clusters">0</span></p>
+  </div>
+
+  <footer class="footer mt-10">
+    © 2025 | Discord: <b>Chaitanya.eth</b> | X: <b>@0x_Noelle</b>
+  </footer>
+
+  <script>
+    let compute = 0;
+    let nodes = 0, gpus = 0, clusters = 0;
+
+    const computeEl = document.getElementById("compute");
+    const rankEl = document.getElementById("rank");
+    const nodeEl = document.getElementById("nodes");
+    const gpuEl = document.getElementById("gpus");
+    const clusterEl = document.getElementById("clusters");
+
+    document.getElementById("mascot").addEventListener("click", () => {
+      compute += 1;
+      update();
+    });
+
+    document.getElementById("buyNode").addEventListener("click", () => {
+      if (compute >= 50) {
+        compute -= 50;
+        nodes++;
+        update();
+      }
+    });
+
+    document.getElementById("buyGPU").addEventListener("click", () => {
+      if (compute >= 200) {
+        compute -= 200;
+        gpus++;
+        update();
+      }
+    });
+
+    document.getElementById("buyCluster").addEventListener("click", () => {
+      if (compute >= 1000) {
+        compute -= 1000;
+        clusters++;
+        update();
+      }
+    });
+
+    function update() {
+      computeEl.textContent = Math.floor(compute);
+      nodeEl.textContent = nodes;
+      gpuEl.textContent = gpus;
+      clusterEl.textContent = clusters;
+      updateRank();
+    }
+
+    function updateRank() {
+      if (compute < 500) rankEl.textContent = "Node Runner";
+      else if (compute < 2000) rankEl.textContent = "Swarm Builder";
+      else if (compute < 10000) rankEl.textContent = "AI Architect";
+      else rankEl.textContent = "Network Master";
+    }
+
+    // Auto-increment compute every second
+    setInterval(() => {
+      compute += nodes * 2 + gpus * 5 + clusters * 20;
+      update();
+    }, 1000);
+  </script>
+
+</body>
+</html>
